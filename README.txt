@@ -15,6 +15,8 @@ the watch page of the VOD and copy the digits at the end of the URL.
 Example:
 For https://www.twitch.tv/videos/2300856XXX the ID would be 2300856XXX.
 
+Process can take around an hour using a RTX2060.
+
 
 Requirements:
 - OpenAI account
