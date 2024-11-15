@@ -212,20 +212,24 @@ def get_top_active_intervals(json_file_path, interval_seconds=5, top_n=5):
             print("No comments found in the JSON data.")
             return []
         
-        interval_counts: dict[int, int] = {}
+        interval_counts: dict[str, int] = {}
         
         for comment in comments:
             timestamp = comment['content_offset_seconds']
             interval_index = int(timestamp // interval_seconds) * interval_seconds
-            interval_counts[interval_index] += 1
+            idx_str = str(interval_index)
+            if idx_str in interval_counts:
+                interval_counts[idx_str] += 1
+            else:
+                interval_counts[idx_str] = 1
         
         top_intervals = sorted(interval_counts.items(), key=lambda x: x[1], reverse=True)[:top_n]
-        top_active_intervals = [(start, count) for start, count in top_intervals]
+        top_active_intervals = [(int(start), count) for start, count in top_intervals]
         
         top_active = []
         for x in top_active_intervals:
             top_active.append({
-                "title": "top_chat_activity_" + x[1],
+                "title": "top_chat_activity_" + str(x[0]),
                 "start": seconds_to_hms(x[0] - 60),
                 "end": seconds_to_hms(x[0] + 30)
             })
@@ -296,12 +300,16 @@ def main()-> None:
     os.mkdir("out/clips")
 
     data = json.loads(result)
-    data["top chat moments"] = get_top_active_intervals("out/chat.json", interval_seconds=30, top_n=5)
+
+    chat_activity_clips = get_top_active_intervals("out/chat.json", interval_seconds=30, top_n=5)
+    print(chat_activity_clips)
+
+    data["top chat moments"] = chat_activity_clips
 
     for category, clips in data.items():
         for clip in clips:
-            start_time = max(0, hms_to_seconds(clip["start"]) - 30)
-            end_time = hms_to_seconds(clip["end"] + 30)
+            start_time = max(0, hms_to_seconds(clip["start"])) - 30
+            end_time = hms_to_seconds(clip["end"]) + 30
             duration = end_time - start_time
             title_safe = clip["title"].replace(" ", "_").replace("'", "").replace(":", "")
             output_file = f"out/clips/{title_safe}.mp4"
