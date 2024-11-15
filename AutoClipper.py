@@ -12,7 +12,7 @@ import faster_whisper
 
 def read_env()-> dict:
     ret_val = {}
-    with open(".env", "r") as f:
+    with open(".env", "r", encoding="utf-8") as f:
         env_lines = f.readlines()
     
     for line in env_lines:
@@ -204,7 +204,7 @@ def local_whisper_transcribe()-> None:
 
 def get_top_active_intervals(json_file_path, interval_seconds=5, top_n=5):
     try:
-        with open(json_file_path, 'r') as file:
+        with open(json_file_path, 'r', encoding="utf-8") as file:
             data = json.load(file)
         
         comments = data.get("comments", [])
@@ -273,10 +273,10 @@ def main()-> None:
 
     local_whisper_transcribe()
 
-    with open("openai-prompt.txt", "r") as f:
+    with open("openai-prompt.txt", "r", encoding="utf-8") as f:
         sys_prompt = f.read()
 
-    with open("out/transcript.txt", "r") as f:
+    with open("out/transcript.txt", "r", encoding="utf-8") as f:
         transcript = f.read()
 
     print("Using Openai to identify best clips...")
