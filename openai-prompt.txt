@@ -1,0 +1,24 @@
+Given a transcript of a livestream return:
+- the 15 absolute best moments.
+
+If you are returning me a moment from this stream, this means that to you, this moment is objectively way better than any other moments in this stream, and that this moment is so good it deserves to be put in a video.
+
+Be extremely careful and picky in how you chose these moments.
+
+What defines a best moment (Pick those):
+- funny
+- shocking
+- relatable
+- informative
+- overarching theme
+
+What defines a moment that isn't good (Discard those):
+- plain
+- boring
+- nonsensical
+- disjointed
+
+The length of best moments should be from 30 seconds to 8 minutes.
+
+JSON Format:
+{"best moments":[{"title":string,"start":string,"end":string},...],...]}
