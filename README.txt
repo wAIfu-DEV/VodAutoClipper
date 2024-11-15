@@ -15,7 +15,17 @@ the watch page of the VOD and copy the digits at the end of the URL.
 Example:
 For https://www.twitch.tv/videos/2300856XXX the ID would be 2300856XXX.
 
-Process can take around an hour using a RTX2060.
+
+Noteable:
+
+- Process can take around an hour using a RTX2060.
+- Works best for a 1 to 2 speaker stream.
+- Speaker identification is based on average pitch of a spoken audio segment,
+  a segment with a average pitch higher than SPEAKER_PITCH_THRESHOLD will be
+  identified as SPEAKER1, and any segments lower the the threshold will be
+  identified as SPEAKER2. You can get an idea of what threshold to use by doing
+  a test run and checking the average pitch of each transcribed lines. The
+  threshold should be equal to ((usual SPEAKER1 pitch) + (usual SPEAKER2 pitch)) / 2
 
 
 Requirements:
